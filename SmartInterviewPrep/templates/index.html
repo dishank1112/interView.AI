@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Detector</title>
+    <style>
+        /* Style for the emotion display */
+        #emotion {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+
+        /* Style for the video display */
+        #video {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Welcome to the Emotion Detector</h1>
+
+    <!-- Emotion Display (Top-right corner) -->
+    <div id="emotion">
+        Waiting for emotion...
+    </div>
+
+    <!-- Video Display (Webcam feed) -->
+    <img id="video" src="{{ url_for('video_feed') }}" alt="Webcam Feed">
+
+    <script>
+        // Function to fetch emotion data from the Flask backend
+        function fetchEmotion() {
+            fetch('/get_emotion')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.emotion) {
+                        document.getElementById('emotion').textContent = `Detected Emotion: ${data.emotion}`;
+                    } else {
+                        document.getElementById('emotion').textContent = `Error: ${data.error}`;
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('emotion').textContent = 'Error fetching emotion';
+                    console.error(error);
+                });
+        }
+
+        // Poll the backend for emotion data every 2 seconds
+        setInterval(fetchEmotion, 100);  // 2 seconds interval
+    </script>
+
+</body>
+
+</html>

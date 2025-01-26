@@ -1,0 +1,13 @@
+tensorflow
+keras
+pandas
+numpy
+jupyter
+notebook
+tqdm
+opencv-contrib-python
+scikit-learn
+streamlit
+google-generativeai
+python-dotenv
+pdf2image
